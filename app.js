@@ -5,6 +5,10 @@ const session = require('express-session');
 const flash = require('connect-flash');
 const app = express();
 
+const path = require('path');
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
 // Connect to MongoDB
 const DB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/MD';
 mongoose.connect(DB_URI)
