@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Page</title>
+
+    <!-- Matcha CSS Framework -->
+    <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.css" />
+
+    <style>
+      /* Full-screen background */
+      body {
+        background-image: url("https://t3.ftcdn.net/jpg/02/77/41/26/240_F_277412640_WVE1FmtHzgIiVCMTrTkvZC13dNzLD04Z.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial, sans-serif;
+      }
+
+      /* Semi-transparent overlay for the form */
+      .form-container {
+        background-color: rgba(0, 0, 0, 0.7); /* Dark transparent background */
+        padding: 40px;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+        max-width: 400px;
+        width: 100%;
+        text-align: center;
+        color: white;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+        text-align: left;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 2px solid #ffd700; /* Gold border for better visibility */
+        border-radius: 5px;
+        font-size: 1rem;
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.1
+        ); /* Light transparent background for input */
+        color: rgb(14, 14, 14);
+      }
+
+      button {
+        background-color: #4caf50; /* Green button */
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #45a049; /* Darker green on hover */
+      }
+
+      a {
+        color: #ffd700; /* Gold color for links */
+      }
+
+      a:hover {
+        color: #fff; /* White on hover */
+      }
+
+      .toggle-password {
+        cursor: pointer;
+        color: #ffd700;
+        margin-top: -5px;
+        float:none;
+        margin-bottom: 10px;
+      }
+
+      /* Style the error message */
+      .error-msg {
+        color: red;
+        font-weight: bold;
+        margin-bottom: 20px;
+      }
+      .login_label{
+        color: black;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="form-container">
+      <h1>Register</h1>
+
+      <% if (error_msg) { %>
+      <p class="error-msg"><%= error_msg %></p>
+      <% } %>
+
+      <form action="/register" method="POST">
+        <div class="login_label">
+          <label for="username">Username:</label>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="Enter your username"
+            required
+          />
+        </div>
+
+        <div class="login_label">
+          <label for="email">Email:</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="Enter your email"
+            required
+          />
+        </div>
+
+        <div class="login_label">
+          <label for="password">Password:</label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Enter your password"
+            required
+          />
+          <span class="toggle-password" onclick="togglePasswordVisibility()"
+            >Show</span
+          >
+        </div>
+
+        <button type="submit">Register</button>
+      </form>
+
+      <p>Already have an account? <a href="/login">Login here</a></p>
+    </div>
+
+    <script>
+      // Placeholder removal for Username field
+      const usernameInput = document.getElementById("username");
+      usernameInput.addEventListener("focus", function () {
+        this.setAttribute("data-placeholder", this.getAttribute("placeholder"));
+        this.setAttribute("placeholder", "");
+      });
+      usernameInput.addEventListener("blur", function () {
+        if (this.value === "") {
+          this.setAttribute(
+            "placeholder",
+            this.getAttribute("data-placeholder")
+          );
+        }
+      });
+
+      // Placeholder removal for Email field
+      const emailInput = document.getElementById("email");
+      emailInput.addEventListener("focus", function () {
+        this.setAttribute("data-placeholder", this.getAttribute("placeholder"));
+        this.setAttribute("placeholder", "");
+      });
+      emailInput.addEventListener("blur", function () {
+        if (this.value === "") {
+          this.setAttribute(
+            "placeholder",
+            this.getAttribute("data-placeholder")
+          );
+        }
+      });
+
+      // Placeholder removal for Password field
+      const passwordInput = document.getElementById("password");
+      passwordInput.addEventListener("focus", function () {
+        this.setAttribute("data-placeholder", this.getAttribute("placeholder"));
+        this.setAttribute("placeholder", "");
+      });
+      passwordInput.addEventListener("blur", function () {
+        if (this.value === "") {
+          this.setAttribute(
+            "placeholder",
+            this.getAttribute("data-placeholder")
+          );
+        }
+      });
+
+      // Show/Hide password functionality
+      function togglePasswordVisibility() {
+        const toggleText = document.querySelector(".toggle-password");
+
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          toggleText.textContent = "Hide";
+        } else {
+          passwordInput.type = "password";
+          toggleText.textContent = "Show";
+        }
+      }
+    </script>
+  </body>
+</html>

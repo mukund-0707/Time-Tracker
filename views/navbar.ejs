@@ -1,0 +1,84 @@
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #f8f9fa; transition: background-color 0.3s;">
+  <div class="container">
+    <a class="navbar-brand" href="#">Time Tracker</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="nav-links navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <% if (locals.userId) { %>
+          <li class="nav-item">
+            <a class="nav-link" href="#recent-entries">Entries</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <form action="/logout" method="POST" style="display: inline;">
+              <button type="submit" class="btn btn-link nav-link">Logout</button>
+            </form>
+          </li>
+        <% } else { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/register">Register</a>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<script>
+  let nav = document.querySelector("nav");
+  const handleScroll = () => {
+    if (document.documentElement.scrollTop > 20) {
+      nav.classList.add("sticky");
+      nav.style.backgroundColor = "#f9e79f";
+      nav.style.color = "#ffffff";
+    } else {
+      nav.classList.remove("sticky");
+      nav.style.backgroundColor = "#f8f9fa";
+      nav.style.color = "#000000";
+    }
+  };
+
+  const debounce = (func, wait) => {
+    let timeout;
+    return function (...args) {
+      const context = this;
+      clearTimeout(timeout);
+      timeout = setTimeout(() => func.apply(context, args), wait);
+    };
+  };
+
+  window.addEventListener("scroll", debounce(handleScroll, 100));
+</script>
+
+<style>
+  .sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .nav-links .nav-item .nav-link {
+    transition: color 0.3s;
+  }
+
+  .nav-links .nav-item .nav-link:hover {
+    color: #007bff;
+  }
+
+  .navbar-light .navbar-nav .nav-link.active {
+    font-weight: bold;
+  }
+</style>
