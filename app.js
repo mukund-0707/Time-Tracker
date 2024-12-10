@@ -6,7 +6,8 @@ const flash = require('connect-flash');
 const app = express();
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/MD')
+const DB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/MD';
+mongoose.connect(DB_URI)
   .then(() => {
     console.log('MongoDB connected');
   })
@@ -20,12 +21,12 @@ app.set('view engine', 'ejs');
 
 // Session middleware
 app.use(session({
-  secret: 'testkskdjfkdkjk', // Replace with a secure secret
+  secret: process.env.SESSION_SECRET || 'defaultsecret', // Use an environment variable for security
   resave: false,
   saveUninitialized: false,
   cookie: { 
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
-    secure: false // Set true if using HTTPS
+    secure: process.env.NODE_ENV === 'production' // Secure cookie in production
   }
 }));
 
@@ -40,11 +41,15 @@ app.use((req, res, next) => {
 });
 
 // Routes
-app.use('/', require('./routes/index')); // Make sure your routes are set up correctly
+app.use('/', require('./routes/index')); // Ensure routes are correctly set up
 
-// Start the server
-const PORT = 3000;
+// Start server for local testing
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
+}
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// Export the app for Vercel
+module.exports = app;
